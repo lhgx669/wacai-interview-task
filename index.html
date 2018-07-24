@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="./build/react.js"></script>
+    <script src="./build/react-dom.js"></script>
+    <script src="./build/browser.min.js"></script>
+    <script src="./build/jquery.min.js"></script>
+    <link rel="stylesheet" href="react_data.css">
+</head>
+
+<body>
+<div id="example"></div>
+
+<script type="text/babel">
+
+    var Button = React.createClass({
+
+      getInitialState:function () {
+        return{
+          name:'gx',
+          id:666,
+          url:'http://github.lhgx669',
+          type:'visitor',
+          disabled: false
+        }
+      },
+
+      get: function() {
+        this.setState({
+          disabled: true
+        })
+
+        $.get(this.props.source, function(res) {
+          var result = res[0].owner;
+            this.setState({
+              name: result.login ,
+              id: result.id,
+              url: result.url,
+              type: result.type,
+              disabled: false
+            });
+        }.bind(this));
+      },
+
+      render:function () {
+        return(
+            <div className="bubble">
+            <main>
+              <span>click here to get message --></span><button className="btn" onClick = {this.get} disabled = {this.state.disabled}>GET</button>
+              <p>name:{this.state.name}</p>
+              <p>id:{this.state.id}</p>
+              <p>url:{this.state.url}</p>
+              <p>type:{this.state.type}</p>
+            </main>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </div>
+            )
+      }
+    });
+
+    ReactDOM.render(
+        <Button source = 'https://api.github.com/users/octocat/gists'/>,
+        document.getElementById('example')
+    )
+
+</script>
+</body>
+</html>
